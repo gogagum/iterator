@@ -78,9 +78,9 @@ namespace iterators {
         class function_pointer_input_iterator :
             public iterator_facade<
                 iterators::function_input_iterator<Function, Input>,
-                typename std::invoke_result<Function>::type,
+                decltype(std::declval<Function>()()),
                 single_pass_traversal_tag,
-                typename std::invoke_result<Function>::type const &
+                decltype(std::declval<Function>()()) const &
             >
         {
         public:
@@ -96,7 +96,7 @@ namespace iterators {
                 ++state;
             }
 
-            typename std::invoke_result<Function>::type const &
+            decltype(std::declval<Function>()()) const &
                 dereference() const {
                 if (!value)
                     value = (*f)();
@@ -110,7 +110,7 @@ namespace iterators {
         private:
             Function f;
             Input state;
-            mutable optional<typename std::invoke_result<Function>::type> value;
+            mutable optional<decltype(std::declval<Function>()())> value;
         };
 
     } // namespace impl
