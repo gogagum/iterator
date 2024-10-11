@@ -8,7 +8,6 @@
 #define BOOST_ITERATOR_FACADE_23022003THW_HPP
 
 #include <boost/config.hpp>
-#include <boost/core/addressof.hpp>
 
 #include <boost/iterator/interoperable.hpp>
 #include <boost/iterator/iterator_traits.hpp>
@@ -170,7 +169,7 @@ namespace iterators {
         // Provides (r++)->foo()
         value_type* operator->() const
         {
-            return boost::addressof(stored_value);
+            return std::addressof(stored_value);
         }
 
      private:
@@ -270,7 +269,7 @@ namespace iterators {
         // Provides (r++)->foo()
         value_type* operator->() const
         {
-            return boost::addressof(dereference_proxy.stored_value);
+            return std::addressof(dereference_proxy.stored_value);
         }
 
      private:
@@ -372,10 +371,10 @@ namespace iterators {
         struct proxy
         {
             explicit proxy(Reference const & x) : m_ref(x) {}
-            Reference* operator->() { return boost::addressof(m_ref); }
+            Reference* operator->() { return std::addressof(m_ref); }
             // This function is needed for MWCW and BCC, which won't call
             // operator-> again automatically per 13.3.1.2 para 8
-            operator Reference*() { return boost::addressof(m_ref); }
+            operator Reference*() { return std::addressof(m_ref); }
             Reference m_ref;
         };
         typedef proxy result_type;
@@ -391,7 +390,7 @@ namespace iterators {
         typedef Pointer result_type;
         static result_type apply(T& x)
         {
-            return boost::addressof(x);
+            return std::addressof(x);
         }
     };
 
