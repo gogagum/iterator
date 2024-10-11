@@ -13,8 +13,6 @@
 #include <memory>
 
 #include <boost/config.hpp>
-#include <boost/function_types/is_function_pointer.hpp>
-#include <boost/function_types/result_type.hpp>
 #include <boost/iterator/iterator_facade.hpp>
 #include <boost/none.hpp>
 #include <boost/optional/optional.hpp>
@@ -80,9 +78,9 @@ namespace iterators {
         class function_pointer_input_iterator :
             public iterator_facade<
                 iterators::function_input_iterator<Function, Input>,
-                typename function_types::result_type<Function>::type,
+                typename std::invoke_result<Function>::type,
                 single_pass_traversal_tag,
-                typename function_types::result_type<Function>::type const &
+                typename std::invoke_result<Function>::type const &
             >
         {
         public:
@@ -98,7 +96,7 @@ namespace iterators {
                 ++state;
             }
 
-            typename function_types::result_type<Function>::type const &
+            typename std::invoke_result<Function>::type const &
                 dereference() const {
                 if (!value)
                     value = (*f)();
@@ -112,7 +110,7 @@ namespace iterators {
         private:
             Function f;
             Input state;
-            mutable optional<typename function_types::result_type<Function>::type> value;
+            mutable optional<typename std::invoke_result<Function>::type> value;
         };
 
     } // namespace impl
@@ -120,13 +118,13 @@ namespace iterators {
     template <class Function, class Input>
     class function_input_iterator :
         public std::conditional<
-            function_types::is_function_pointer<Function>::value,
+            std::is_function<Function>::value && std::is_pointer<Function>::value,
             impl::function_pointer_input_iterator<Function,Input>,
             impl::function_object_input_iterator<Function,Input>
         >::type
     {
         typedef typename std::conditional<
-            function_types::is_function_pointer<Function>::value,
+            std::is_function<Function>::value && std::is_pointer<Function>::value,
             impl::function_pointer_input_iterator<Function,Input>,
             impl::function_object_input_iterator<Function,Input>
         >::type base_type;
