@@ -18,7 +18,6 @@
 #include <boost/iterator/iterator_facade.hpp>
 #include <boost/none.hpp>
 #include <boost/optional/optional.hpp>
-#include <boost/utility/result_of.hpp>
 
 namespace boost {
 
@@ -35,13 +34,7 @@ namespace iterators {
         template <class F>
         struct result_of_nullary_lvalue_call
         {
-            typedef typename result_of<
-#ifdef BOOST_RESULT_OF_USE_TR1
-                typename std::conditional<std::is_function<F>::value, F&, F>::type()
-#else
-                F&()
-#endif
-            >::type type;
+            typedef typename result_of<F&()>::type type;
         };
 
         template <class Function, class Input>

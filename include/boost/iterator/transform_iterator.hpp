@@ -11,7 +11,6 @@
 #include <boost/config/workaround.hpp>
 #include <boost/iterator/iterator_adaptor.hpp>
 #include <boost/iterator/iterator_categories.hpp>
-#include <boost/utility/result_of.hpp>
 
 #include <type_traits>
 #include <iterator>
@@ -36,11 +35,7 @@ namespace iterators {
         // the function.
         typedef typename ia_dflt_help<
             Reference
-#ifdef BOOST_RESULT_OF_USE_TR1
-          , result_of<const UnaryFunc(typename std::iterator_traits<Iterator>::reference)>
-#else
-          , result_of<const UnaryFunc&(typename std::iterator_traits<Iterator>::reference)>
-#endif
+          , std::result_of<const UnaryFunc&(typename std::iterator_traits<Iterator>::reference)>
         >::type reference;
 
         // To get the default for Value: remove any reference on the

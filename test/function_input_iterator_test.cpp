@@ -10,14 +10,6 @@
 #include <vector>
 
 #include <boost/config.hpp>
-
-// Force boost::result_of use decltype, even on compilers that don't support N3276.
-// This enables this test to also verify if the iterator works with lambdas
-// on such compilers with this config macro. Note that without the macro result_of
-// (and consequently the iterator) is guaranteed to _not_ work, so this case is not
-// worth testing anyway.
-#define BOOST_RESULT_OF_USE_DECLTYPE
-
 #include <boost/core/lightweight_test.hpp>
 #include <boost/iterator/function_input_iterator.hpp>
 
