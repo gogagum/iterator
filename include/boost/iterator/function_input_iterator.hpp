@@ -34,7 +34,7 @@ namespace iterators {
         template <class F>
         struct result_of_nullary_lvalue_call
         {
-            typedef typename result_of<F&()>::type type;
+            typedef typename std::result_of<F&()>::type type;
         };
 
         template <class Function, class Input>

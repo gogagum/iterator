@@ -23,7 +23,6 @@
 #include <boost/concept_archetype.hpp>
 #include <boost/concept_check.hpp>
 #include <boost/shared_ptr.hpp>
-#include <boost/utility.hpp>
 #include <boost/next_prior.hpp>
 
 #include <boost/mpl/has_xxx.hpp>
