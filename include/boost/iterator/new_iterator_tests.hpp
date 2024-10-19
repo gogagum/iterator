@@ -34,9 +34,9 @@
 # include <boost/pending/iterator_tests.hpp>
 # include <boost/iterator/is_readable_iterator.hpp>
 # include <boost/iterator/is_lvalue_iterator.hpp>
-# include <boost/mpl/and.hpp>
 
 # include <boost/iterator/detail/config_def.hpp>
+# include <boost/iterator/detail/type_traits/conjunction.hpp>
 # include <boost/detail/is_incrementable.hpp>
 # include <boost/core/lightweight_test.hpp>
 
@@ -100,7 +100,7 @@ void writable_iterator_test(Iterator i, T v, T v2)
 
 # if !BOOST_WORKAROUND(__MWERKS__, <= 0x2407)
   writable_iterator_traversal_test(
-      i, v2, mpl::and_<
+      i, v2, iterators::detail::conjunction<
           detail::is_incrementable<Iterator>
         , detail::is_postfix_incrementable<Iterator>
       >());

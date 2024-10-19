@@ -14,11 +14,11 @@
 #include <boost/iterator/iterator_traits.hpp>
 #include <boost/iterator/iterator_categories.hpp>
 #include <boost/iterator/detail/facade_iterator_category.hpp>
+#include <boost/iterator/detail/type_traits/conjunction.hpp>
+#include <boost/iterator/detail/type_traits/negation.hpp>
 
 #include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/or.hpp>
-#include <boost/mpl/and.hpp>
-#include <boost/mpl/not.hpp>
+
 #include <boost/mpl/always.hpp>
 #include <boost/mpl/apply.hpp>
 #include <boost/mpl/identity.hpp>
@@ -82,7 +82,7 @@ namespace iterators {
     >
     struct enable_if_interoperable_and_random_access_traversal :
         public std::enable_if<
-            mpl::and_<
+            detail::conjunction<
                 is_interoperable< Facade1, Facade2 >
               , is_traversal_at_least< typename iterator_category< Facade1 >::type, random_access_traversal_tag >
               , is_traversal_at_least< typename iterator_category< Facade2 >::type, random_access_traversal_tag >
@@ -277,7 +277,9 @@ namespace iterators {
         writable_postfix_increment_dereference_proxy<Iterator> dereference_proxy;
     };
 
-# ifdef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+//# ifdef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
+
+#if 1
 
     template <class Reference, class Value>
     struct is_non_proxy_reference_impl
@@ -299,8 +301,9 @@ namespace iterators {
 
     template <class Reference, class Value>
     struct is_non_proxy_reference
-      : mpl::bool_<
-            is_non_proxy_reference_impl<Reference, Value>::value
+      : std::integral_constant<
+            bool
+          , is_non_proxy_reference_impl<Reference, Value>::value
         >
     {};
 # else
@@ -332,7 +335,7 @@ namespace iterators {
     template <class Iterator, class Value, class Reference, class CategoryOrTraversal>
     struct postfix_increment_result
       : mpl::eval_if<
-            mpl::and_<
+            detail::conjunction<
                 // A proxy is only needed for readable iterators
                 std::is_convertible<
                     Reference
@@ -346,7 +349,7 @@ namespace iterators {
 
                 // No multipass iterator can have values that disappear
                 // before positions can be re-visited
-              , mpl::not_<
+              , detail::negation<
                     std::is_convertible<
                         typename iterator_category_to_traversal<CategoryOrTraversal>::type
                       , forward_traversal_tag
@@ -431,7 +434,7 @@ namespace iterators {
     template <class ValueType, class Reference>
     struct use_operator_brackets_proxy
       : mpl::not_<
-            mpl::and_<
+            detail::conjunction<
                 // Really we want an is_copy_constructible trait here,
                 // but is_POD will have to suffice in the meantime.
                 std::is_standard_layout<ValueType>

@@ -7,7 +7,6 @@
 #include <boost/detail/workaround.hpp>
 
 #include <boost/iterator/detail/any_conversion_eater.hpp>
-#include <boost/mpl/bool.hpp>
 #include <boost/mpl/aux_/lambda_support.hpp>
 
 #include <iterator>
@@ -86,7 +85,7 @@ namespace detail
   struct is_lvalue_iterator_impl<void>
   {
       template <class It>
-      struct rebind : boost::mpl::false_
+      struct rebind : std::integral_constant<bool, false>
       {};
   };
 
@@ -95,7 +94,7 @@ namespace detail
   struct is_lvalue_iterator_impl<const void>
   {
       template <class It>
-      struct rebind : boost::mpl::false_
+      struct rebind : std::integral_constant<bool, false>
       {};
   };
 
@@ -103,7 +102,7 @@ namespace detail
   struct is_lvalue_iterator_impl<volatile void>
   {
       template <class It>
-      struct rebind : boost::mpl::false_
+      struct rebind : std::integral_constant<bool, false>
       {};
   };
 
@@ -111,7 +110,7 @@ namespace detail
   struct is_lvalue_iterator_impl<const volatile void>
   {
       template <class It>
-      struct rebind : boost::mpl::false_
+      struct rebind : std::integral_constant<bool, false>
       {};
   };
 #endif
