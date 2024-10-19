@@ -28,6 +28,7 @@
 #include <type_traits>
 #include <memory>
 
+#include <boost/iterator/detail/type_traits/negation.hpp>
 #include <boost/iterator/detail/config_def.hpp> // this goes last
 
 namespace boost {
@@ -433,7 +434,7 @@ namespace iterators {
     // proxy, or whether it can simply return a copy of the value_type.
     template <class ValueType, class Reference>
     struct use_operator_brackets_proxy
-      : mpl::not_<
+      : detail::negation<
             detail::conjunction<
                 // Really we want an is_copy_constructible trait here,
                 // but is_POD will have to suffice in the meantime.
@@ -455,13 +456,13 @@ namespace iterators {
     };
 
     template <class Iterator>
-    operator_brackets_proxy<Iterator> make_operator_brackets_result(Iterator const& iter, mpl::true_)
+    operator_brackets_proxy<Iterator> make_operator_brackets_result(Iterator const& iter, std::integral_constant<bool, true>)
     {
         return operator_brackets_proxy<Iterator>(iter);
     }
 
     template <class Iterator>
-    typename Iterator::value_type make_operator_brackets_result(Iterator const& iter, mpl::false_)
+    typename Iterator::value_type make_operator_brackets_result(Iterator const& iter, std::integral_constant<bool, false>)
     {
       return *iter;
     }
