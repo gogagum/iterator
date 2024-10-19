@@ -56,12 +56,12 @@ template <class ValueParam, class Reference>
 struct iterator_writability_disabled
 # ifdef BOOST_ITERATOR_REF_CONSTNESS_KILLS_WRITABILITY // Adding Thomas' logic?
   : disjunction<
-        is_const<Reference>
-      , boost::detail::indirect_traits::is_reference_to_const<Reference>
-      , is_const<ValueParam>
+        std::is_const<Reference>
+      , std::integral_constant<bool, boost::detail::indirect_traits::is_reference_to_const<Reference>::value>
+      , std::is_const<ValueParam>
     >
 # else
-  : is_const<ValueParam>
+  : std::is_const<ValueParam>
 # endif
 {};
 
