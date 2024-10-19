@@ -456,13 +456,13 @@ namespace iterators {
     };
 
     template <class Iterator>
-    operator_brackets_proxy<Iterator> make_operator_brackets_result(Iterator const& iter, std::integral_constant<bool, true>)
+    operator_brackets_proxy<Iterator> make_operator_brackets_result(Iterator const& iter, std::true_type)
     {
         return operator_brackets_proxy<Iterator>(iter);
     }
 
     template <class Iterator>
-    typename Iterator::value_type make_operator_brackets_result(Iterator const& iter, std::integral_constant<bool, false>)
+    typename Iterator::value_type make_operator_brackets_result(Iterator const& iter, std::false_type)
     {
       return *iter;
     }

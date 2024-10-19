@@ -85,7 +85,7 @@ namespace detail
   struct is_lvalue_iterator_impl<void>
   {
       template <class It>
-      struct rebind : std::integral_constant<bool, false>
+      struct rebind : std::false_type
       {};
   };
 
@@ -94,7 +94,7 @@ namespace detail
   struct is_lvalue_iterator_impl<const void>
   {
       template <class It>
-      struct rebind : std::integral_constant<bool, false>
+      struct rebind : std::false_type
       {};
   };
 
@@ -102,7 +102,7 @@ namespace detail
   struct is_lvalue_iterator_impl<volatile void>
   {
       template <class It>
-      struct rebind : std::integral_constant<bool, false>
+      struct rebind : std::false_type
       {};
   };
 
@@ -110,7 +110,7 @@ namespace detail
   struct is_lvalue_iterator_impl<const volatile void>
   {
       template <class It>
-      struct rebind : std::integral_constant<bool, false>
+      struct rebind : std::false_type
       {};
   };
 #endif

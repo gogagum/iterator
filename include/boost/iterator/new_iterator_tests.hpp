@@ -45,19 +45,16 @@ namespace boost {
 // Do separate tests for *i++ so we can treat, e.g., smart pointers,
 // as readable and/or writable iterators.
 template <class Iterator, class T>
-void readable_iterator_traversal_test(Iterator i1, T v,
-                                      std::integral_constant<bool, true>) {
+void readable_iterator_traversal_test(Iterator i1, T v, std::true_type) {
   T v2(*i1++);
   BOOST_TEST(v == v2);
 }
 
 template <class Iterator, class T>
-void readable_iterator_traversal_test(const Iterator i1, T v,
-                                      std::integral_constant<bool, false>) {}
+void readable_iterator_traversal_test(const Iterator i1, T v, std::false_type) {}
 
 template <class Iterator, class T>
-void writable_iterator_traversal_test(Iterator i1, T v,
-                                      std::integral_constant<bool, true>) {
+void writable_iterator_traversal_test(Iterator i1, T v, std::true_type) {
   ++i1; // we just wrote into that position
   *i1++ = v;
   Iterator x(i1++);
@@ -65,8 +62,7 @@ void writable_iterator_traversal_test(Iterator i1, T v,
 }
 
 template <class Iterator, class T>
-void writable_iterator_traversal_test(const Iterator i1, T v,
-                                      std::integral_constant<bool, false>) {}
+void writable_iterator_traversal_test(const Iterator i1, T v, std::false_type) {}
 
 // Preconditions: *i == v
 template <class Iterator, class T>
