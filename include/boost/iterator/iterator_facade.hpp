@@ -786,11 +786,11 @@ namespace iterators {
         typename boost::iterators::detail::operator_brackets_result<Derived, Value, reference>::type
         operator[](difference_type n) const
         {
-            typedef boost::iterators::detail::use_operator_brackets_proxy<Value, Reference> use_proxy;
+            const auto use_proxy = boost::iterators::detail::use_operator_brackets_proxy<Value, Reference>::value;
 
             return boost::iterators::detail::make_operator_brackets_result<Derived>(
                 this->derived() + n
-              , use_proxy()
+              , std::integral_constant<bool, use_proxy>{}
             );
         }
 
