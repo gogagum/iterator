@@ -278,10 +278,7 @@ namespace iterators {
         writable_postfix_increment_dereference_proxy<Iterator> dereference_proxy;
     };
 
-//# ifdef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
-
-#if 1
-
+# ifdef BOOST_NO_TEMPLATE_PARTIAL_SPECIALIZATION
     template <class Reference, class Value>
     struct is_non_proxy_reference_impl
     {
